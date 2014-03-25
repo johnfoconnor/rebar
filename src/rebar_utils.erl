@@ -291,11 +291,17 @@ erl_opts(Config) ->
     Defines = [{d, list_to_atom(D)} ||
                   D <- rebar_config:get_xconf(Config, defines, [])],
     Opts = Defines ++ RawErlOpts,
-    case proplists:is_defined(no_debug_info, Opts) of
+    Opts1 = case proplists:is_defined(no_debug_info, Opts) of
         true ->
             [O || O <- Opts, O =/= no_debug_info];
         false ->
             [debug_info|Opts]
+    end,
+    case proplists:is_defined(no_warnings_as_errors, Opts1) of
+        true ->
+            [O || O <- Opts1, O =/= no_warnings_as_errors];
+        false ->
+            Opts1
     end.
 
 -spec src_dirs([string()]) -> [file:filename(), ...].
