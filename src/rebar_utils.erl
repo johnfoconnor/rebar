@@ -297,12 +297,7 @@ erl_opts(Config) ->
         false ->
             [debug_info|Opts]
     end,
-    case proplists:is_defined(no_warnings_as_errors, Opts1) of
-        true ->
-            [O || O <- Opts1, O =/= no_warnings_as_errors];
-        false ->
-            Opts1
-    end.
+    [O || O <- Opts1, O =/= warnings_as_errors].
 
 -spec src_dirs([string()]) -> [file:filename(), ...].
 src_dirs([]) ->
